@@ -17,18 +17,25 @@ import Select from 'react-select';
 import {Picker} from '@react-native-picker/picker';
 import Dropdown from 'react-native-input-select';
 
-let setStarterTrue = '#808080'
+let setStarterTrue = '#ff0d00'
 let setMainTrue = '#808080'
 let setDessertTrue = '#808080'
+/*let dishName = 'dish'
+let descriptionName = 'description'
+let priceName = 0*/
 
 export default function TabTwoScreen() {
 
 const [starterOption,setStarterOption] = useState(true) 
 const [mainOption,setMainOption] = useState(true) 
 const [dessertOption,setDessertOption] = useState(true) 
+const [dishName, setDishName] = useState(' ')
+const [desciptName, setDescriptName] = useState(' ')
+const [priceName, setPriceName] = useState(' ')
+
   return (
        <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
+      headerBackgroundColor={{ light: '#ffffff', dark: '#353636' }}
       headerImage={
         <Image
           source={require('@/assets/images/partial-react-logo.png')}
@@ -39,9 +46,10 @@ const [dessertOption,setDessertOption] = useState(true)
         <ThemedText type="title">Create Menu</ThemedText>
       </ThemedView>
       <ThemedText>Dish name :</ThemedText>
-      <TextInput style={styles.input}></TextInput>
+      <TextInput style={styles.input} onChangeText={newText => setDishName(newText)}></TextInput>
+
       <ThemedText>Description :</ThemedText>
-      <TextInput style={styles.input}></TextInput>
+      <TextInput style={styles.input} onChangeText={newText2 => setDescriptName(newText2)}></TextInput>
 
       <Button onPress={() => {
           setMainOption(false);
@@ -68,17 +76,23 @@ const [dessertOption,setDessertOption] = useState(true)
 
 
       <ThemedText>Price :</ThemedText>
-      <TextInput style={styles.input}></TextInput>
-      <Button title='Create menu item'></Button>
+      <TextInput style={styles.input} onChangeText={newText3 => setPriceName(newText3)}></TextInput>
+
+      <Button onPress={() => {
+        
+      }
+        
+      }title='Create menu item'></Button>
   
-      
     </ParallaxScrollView>
     
   );
   
 }
 
+/*function addDish({navigation, route}){
 
+}*/
 
 
 const styles = StyleSheet.create({
