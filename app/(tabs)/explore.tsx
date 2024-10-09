@@ -1,5 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
+import { StyleSheet, Text, Image, Platform, Button, View, Pressable} from 'react-native';
+import SelectDropdown  from 'react-native-select-dropdown'
+
 
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
@@ -7,86 +9,77 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
+import React from 'react';
+import {SafeAreaView, TextInput} from 'react-native';
+import { startMapper } from 'react-native-reanimated';
+import { useId, useState } from 'react';
+import Select from 'react-select';
+import {Picker} from '@react-native-picker/picker';
+import Dropdown from 'react-native-input-select';
+
+let setStarterTrue = '#808080'
+let setMainTrue = '#808080'
+let setDessertTrue = '#808080'
+
 export default function TabTwoScreen() {
+
+const [starterOption,setStarterOption] = useState(true) 
+const [mainOption,setMainOption] = useState(true) 
+const [dessertOption,setDessertOption] = useState(true) 
   return (
-    <ParallaxScrollView
+       <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
+      headerImage={
+        <Image
+          source={require('@/assets/images/partial-react-logo.png')}
+          style={styles.reactLogo}
+        />
+      }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
+        <ThemedText type="title">Create Menu</ThemedText>
       </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
+      <ThemedText>Dish name :</ThemedText>
+      <TextInput style={styles.input}></TextInput>
+      <ThemedText>Description :</ThemedText>
+      <TextInput style={styles.input}></TextInput>
+
+      <Button onPress={() => {
+          setMainOption(false);
+          setDessertOption(false);
+          setStarterOption(true);
+          return setStarterTrue= '#ff0d00', setMainTrue = '#808080', setDessertTrue = '#808080'
+          
+        }} title = 'Starters' color={setStarterTrue}></Button>
+
+      <Button onPress={() => {
+          setMainOption(true);
+          setDessertOption(false);
+          setStarterOption(false);
+           return setStarterTrue= '#808080', setMainTrue = '#ff0d00', setDessertTrue = '#808080'
+          
+        }} title = 'Main' color={setMainTrue}></Button>
+      <Button onPress={() => {
+          setMainOption(false);
+          setDessertOption(true);
+          setStarterOption(false);
+          return setStarterTrue= '#808080', setMainTrue = '#808080', setDessertTrue = '#ff0d00'
+          
+        }} title = 'Dessert' color={setDessertTrue}></Button>
+
+
+      <ThemedText>Price :</ThemedText>
+      <TextInput style={styles.input}></TextInput>
+      <Button title='Create menu item'></Button>
+  
+      
     </ParallaxScrollView>
+    
   );
+  
 }
+
+
+
 
 const styles = StyleSheet.create({
   headerImage: {
@@ -99,4 +92,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
   },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: '#808080' 
+  },
+  buttonOption: {
+    backgroundColor: '#808080'
+  },
+  reactLogo: {
+    height: 178,
+    width: 290,
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+  },
 });
+
+
+
+
