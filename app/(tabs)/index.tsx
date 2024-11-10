@@ -1,11 +1,23 @@
 import { Image, StyleSheet, Platform, Button } from 'react-native';
-
+import { NavigationContainer, TabNavigationState, TabRouterOptions } from '@react-navigation/native';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Navigator, useNavigation } from 'expo-router';
+import { RouteProp } from '@react-navigation/native';
+import { Tabs } from 'expo-router';
+import { Props } from 'react-select';
+import { NavigatorProps } from 'expo-router/build/views/Navigator';
+import { Key } from 'react';
+import { useLocalSearchParams } from 'expo-router';
+
+
 
 export default function HomeScreen() {
+
+  const params = useLocalSearchParams();
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -20,10 +32,10 @@ export default function HomeScreen() {
      
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-      <ThemedText type="subtitle">Menu Item 1</ThemedText>
-        <ThemedText type="subtitle">Dish Name</ThemedText>
-        <ThemedText type="subtitle">Description</ThemedText>
-        <ThemedText type="subtitle">Price</ThemedText>
+      <ThemedText type="subtitle">{params.message}</ThemedText>
+        <ThemedText type="subtitle">{params.message4}</ThemedText>
+        <ThemedText type="subtitle">{params.message2}</ThemedText>
+        <ThemedText type="subtitle">{params.message3}</ThemedText>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -42,8 +54,9 @@ const styles = StyleSheet.create({
   reactLogo: {
     height: 178,
     width: 290,
-    bottom: 0,
-    left: 0,
+    bottom: 10,
+    left: 20,
     position: 'absolute',
+    
   },
 });

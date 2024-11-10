@@ -1,39 +1,50 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, Text, Image, Platform, Button, View, Pressable} from 'react-native';
-import SelectDropdown  from 'react-native-select-dropdown'
-
+import { Tabs } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-
+import { BottomTabBar, BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import React from 'react';
 import {SafeAreaView, TextInput} from 'react-native';
 import { startMapper } from 'react-native-reanimated';
 import { useId, useState } from 'react';
-import Select from 'react-select';
+import Select, { Props } from 'react-select';
 import {Picker} from '@react-native-picker/picker';
-import Dropdown from 'react-native-input-select';
+import { Navigator, useNavigation } from 'expo-router';
+import { NavigationRouteContext } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
+import HomeScreen from '.';
+
+
 
 let setStarterTrue = '#ff0d00'
 let setMainTrue = '#808080'
 let setDessertTrue = '#808080'
-/*let dishName = 'dish'
-let descriptionName = 'description'
-let priceName = 0*/
+let courseOption = 'Course option'
 
-export default function TabTwoScreen() {
+export default function TabTwoScreen({}) {
+
+  const router = useRouter();
+
 
 const [starterOption,setStarterOption] = useState(true) 
 const [mainOption,setMainOption] = useState(true) 
 const [dessertOption,setDessertOption] = useState(true) 
-const [dishName, setDishName] = useState(' ')
-const [desciptName, setDescriptName] = useState(' ')
-const [priceName, setPriceName] = useState(' ')
+const [dishName, setDishName] = useState<string>('Dish name')
+const [desciptName, setDescriptName] = useState('Dish description')
+const [priceName, setPriceName] = useState('Price')
+//const [courseOption, setCourseOption] = useState('course option')
+
 
   return (
+
+
        <ParallaxScrollView
       headerBackgroundColor={{ light: '#ffffff', dark: '#353636' }}
       headerImage={
@@ -55,7 +66,8 @@ const [priceName, setPriceName] = useState(' ')
           setMainOption(false);
           setDessertOption(false);
           setStarterOption(true);
-          return setStarterTrue= '#ff0d00', setMainTrue = '#808080', setDessertTrue = '#808080'
+          
+          return setStarterTrue= '#ff0d00', setMainTrue = '#808080', setDessertTrue = '#808080', courseOption = 'Starter'
           
         }} title = 'Starters' color={setStarterTrue}></Button>
 
@@ -63,14 +75,14 @@ const [priceName, setPriceName] = useState(' ')
           setMainOption(true);
           setDessertOption(false);
           setStarterOption(false);
-           return setStarterTrue= '#808080', setMainTrue = '#ff0d00', setDessertTrue = '#808080'
+           return setStarterTrue= '#808080', setMainTrue = '#ff0d00', setDessertTrue = '#808080', courseOption = 'Main'
           
         }} title = 'Main' color={setMainTrue}></Button>
       <Button onPress={() => {
           setMainOption(false);
           setDessertOption(true);
           setStarterOption(false);
-          return setStarterTrue= '#808080', setMainTrue = '#808080', setDessertTrue = '#ff0d00'
+          return setStarterTrue= '#808080', setMainTrue = '#808080', setDessertTrue = '#ff0d00', courseOption = 'Dessert'
           
         }} title = 'Dessert' color={setDessertTrue}></Button>
 
@@ -78,21 +90,16 @@ const [priceName, setPriceName] = useState(' ')
       <ThemedText>Price :</ThemedText>
       <TextInput style={styles.input} onChangeText={newText3 => setPriceName(newText3)}></TextInput>
 
-      <Button onPress={() => {
+      <Button title='Create menu item' onPress={() =>  
+        router.push({ pathname: '/', params: { message: dishName,message2:desciptName, message3:priceName, message4:courseOption }})
         
       }
-        
-      }title='Create menu item'></Button>
-  
+  ></Button>
     </ParallaxScrollView>
     
-  );
+  )
   
 }
-
-/*function addDish({navigation, route}){
-
-}*/
 
 
 const styles = StyleSheet.create({
