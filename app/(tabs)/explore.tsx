@@ -7,6 +7,8 @@ import { ThemedView } from '@/components/ThemedView';
 import React from 'react';
 import {SafeAreaView, TextInput,FlatList} from 'react-native';
 import { useId, useState } from 'react';
+import { useLists } from '../../context/ListContext';
+
 
 let setStarterTrue = '#ff0d00'
 let setMainTrue = '#808080'
@@ -26,11 +28,13 @@ const [desciptName, setDescriptName] = useState('Dish description')
 const [priceName, setPriceName] = useState('Price')
 const inputValue: string[] = [' ',dishName,' ',desciptName,' ',priceName,' ',courseOption]; // For item input
 
+const { lists, addList, addSelectedList } = useLists();
+
   const [listName, setListName] = useState(''); // For new list name input
   const [selectedList, setSelectedList] = useState<string | null>(null); // Current list
-  const [lists, setLists] = useState<Record<string, string[]>>({}); // All lists
+  //const [lists, setLists] = useState<Record<string, string[]>>({}); // All lists
 
- // Add a new list
+ {/*// Add a new list
  const addList = () => {
   var itemList = inputValue.toString();
   if (listName.trim() !== '' && !lists[listName]) {
@@ -38,9 +42,22 @@ const inputValue: string[] = [' ',dishName,' ',desciptName,' ',priceName,' ',cou
     setSelectedList(listName); // Select the newly created list
     setListName(''); // Clear input
   }
+};*/}
+
+const handleAddList = () => {
+  
+  if (listName.trim() !== '') {
+    addList(listName+inputValue);
+    setListName('');
+  }
 };
 
-
+const handleSelectList = (list: string) => {
+  const selectedList = lists.find((item) => item.name === list);
+  if (selectedList) {
+    addSelectedList(selectedList);
+  }
+};
 
 
 
@@ -92,11 +109,6 @@ const inputValue: string[] = [' ',dishName,' ',desciptName,' ',priceName,' ',cou
       <ThemedText>Price :</ThemedText>
       <TextInput style={styles.input} onChangeText={newText3 => setPriceName(newText3)}></TextInput>
 
-      <Button title='Create menu item' onPress={() =>  
-        router.push({ pathname: '/', params: { message: dishName,message2:desciptName, message3:priceName, message4:courseOption }})
-      }
-  ></Button>
-
 
       {/* Add a new list */}
       <TextInput style={styles.input}
@@ -104,49 +116,31 @@ const inputValue: string[] = [' ',dishName,' ',desciptName,' ',priceName,' ',cou
         value={listName}
         onChangeText={setListName}
       />
-      <Button title="Create New List" onPress={addList} />
+      <Button title="Create New List" onPress={handleAddList} />
 
-      {/* Select and show the current list */}
-      {selectedList && (
-        <View>
-          <ThemedText>Current List: {selectedList}</ThemedText>
-          {/*<TextInput
-            style={styles.input}
-            placeholder="Add item to this list"
-            value={inputValue}
-            onChangeText={setInputValue}
-          />
-          <Button title="Add Item" onPress={addItemToList} />*/}
-
-          <FlatList 
-            data={lists[selectedList]}
-            keyExtractor={(item, index) => `${selectedList}-${index}`}
-            renderItem={({ item }) => (
-              <ThemedText>{item}</ThemedText>
-            )}
-          />
-        </View>
-      )}
-
-      <View>
-        {/* List all available lists */}
-        <ThemedText>Available Lists:</ThemedText>
-      {Object.keys(lists).map((list) => (
-        <Button
-          key={list}
-          title={`View ${list}`}
-          onPress={() => setSelectedList(list)}
-        />
-      ))}
-    </View>
-  
-
-
-    </ParallaxScrollView>
+      <ThemedText>Your Lists:</ThemedText>
+      <FlatList
+        data={lists}
+        keyExtractor={(item, index) => `${item.name}-${index}`}
+        renderItem={({ item }) => (
+          <ThemedView>
+            <Text style={styles.listItem}>{item.name} ({item.items.length} items)</Text>
+            <Button title="Select" onPress={() => handleSelectList(item.name)} />
+          </ThemedView>
+        )}
+      />
     
-  )
+ 
+  </ParallaxScrollView>
+  )}
+
+
+
+    
+    
   
-}
+  
+
 
 
 const styles = StyleSheet.create({
