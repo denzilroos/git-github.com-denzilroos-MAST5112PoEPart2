@@ -119,9 +119,9 @@ const handleSelectList = (list: string) => {
         value={listName}
         onChangeText={setListName}
       />
-      <Button title="Create New List" onPress={handleAddList} />
+      <Button title="Create New Menu Item" onPress={handleAddList} />
 
-      <ThemedText>Your Lists:</ThemedText>
+      <ThemedText>Your Menu Items:</ThemedText>
       <FlatList
         data={lists}
         keyExtractor={(item, index) => `${item.name}-${index}`}
