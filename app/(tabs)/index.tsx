@@ -1,18 +1,8 @@
 import { Image, StyleSheet, Platform, Button } from 'react-native';
-import { NavigationContainer, TabNavigationState, TabRouterOptions } from '@react-navigation/native';
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Navigator, useNavigation } from 'expo-router';
-import { RouteProp } from '@react-navigation/native';
-import { Tabs } from 'expo-router';
-import { Props } from 'react-select';
-import { NavigatorProps } from 'expo-router/build/views/Navigator';
-import { Key } from 'react';
 import { useLocalSearchParams } from 'expo-router';
-
-
 
 export default function HomeScreen() {
 

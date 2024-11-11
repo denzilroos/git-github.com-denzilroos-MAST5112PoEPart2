@@ -1,45 +1,47 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Text, Image, Platform, Button, View, Pressable} from 'react-native';
-import { Tabs } from 'expo-router';
-import { useRouter } from 'expo-router';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
+import { StyleSheet, Text, Image, Platform, Button, View, Pressable} from 'react-native';
+import { useRouter } from 'expo-router';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { BottomTabBar, BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import React from 'react';
-import {SafeAreaView, TextInput} from 'react-native';
-import { startMapper } from 'react-native-reanimated';
+import {SafeAreaView, TextInput,FlatList} from 'react-native';
 import { useId, useState } from 'react';
-import Select, { Props } from 'react-select';
-import {Picker} from '@react-native-picker/picker';
-import { Navigator, useNavigation } from 'expo-router';
-import { NavigationRouteContext } from '@react-navigation/native';
-import { RouteProp } from '@react-navigation/native';
-import {NavigationContainer} from '@react-navigation/native';
-import HomeScreen from '.';
-
-
 
 let setStarterTrue = '#ff0d00'
 let setMainTrue = '#808080'
 let setDessertTrue = '#808080'
 let courseOption = 'Course option'
 
+
 export default function TabTwoScreen({}) {
 
-  const router = useRouter();
-
+const router = useRouter();
 
 const [starterOption,setStarterOption] = useState(true) 
 const [mainOption,setMainOption] = useState(true) 
 const [dessertOption,setDessertOption] = useState(true) 
-const [dishName, setDishName] = useState<string>('Dish name')
+const [dishName, setDishName] = useState('Dish name')
 const [desciptName, setDescriptName] = useState('Dish description')
 const [priceName, setPriceName] = useState('Price')
-//const [courseOption, setCourseOption] = useState('course option')
+const inputValue: string[] = [' ',dishName,' ',desciptName,' ',priceName,' ',courseOption]; // For item input
+
+  const [listName, setListName] = useState(''); // For new list name input
+  const [selectedList, setSelectedList] = useState<string | null>(null); // Current list
+  const [lists, setLists] = useState<Record<string, string[]>>({}); // All lists
+
+ // Add a new list
+ const addList = () => {
+  var itemList = inputValue.toString();
+  if (listName.trim() !== '' && !lists[listName]) {
+    setLists((prev) => ({ ...prev, [listName+itemList]: []}));
+    setSelectedList(listName); // Select the newly created list
+    setListName(''); // Clear input
+  }
+};
+
+
+
 
 
   return (
@@ -92,9 +94,54 @@ const [priceName, setPriceName] = useState('Price')
 
       <Button title='Create menu item' onPress={() =>  
         router.push({ pathname: '/', params: { message: dishName,message2:desciptName, message3:priceName, message4:courseOption }})
-        
       }
   ></Button>
+
+
+      {/* Add a new list */}
+      <TextInput style={styles.input}
+        placeholder="Enter list name"
+        value={listName}
+        onChangeText={setListName}
+      />
+      <Button title="Create New List" onPress={addList} />
+
+      {/* Select and show the current list */}
+      {selectedList && (
+        <View>
+          <ThemedText>Current List: {selectedList}</ThemedText>
+          {/*<TextInput
+            style={styles.input}
+            placeholder="Add item to this list"
+            value={inputValue}
+            onChangeText={setInputValue}
+          />
+          <Button title="Add Item" onPress={addItemToList} />*/}
+
+          <FlatList 
+            data={lists[selectedList]}
+            keyExtractor={(item, index) => `${selectedList}-${index}`}
+            renderItem={({ item }) => (
+              <ThemedText>{item}</ThemedText>
+            )}
+          />
+        </View>
+      )}
+
+      <View>
+        {/* List all available lists */}
+        <ThemedText>Available Lists:</ThemedText>
+      {Object.keys(lists).map((list) => (
+        <Button
+          key={list}
+          title={`View ${list}`}
+          onPress={() => setSelectedList(list)}
+        />
+      ))}
+    </View>
+  
+
+
     </ParallaxScrollView>
     
   )
@@ -129,6 +176,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  listItem: {
+    color: '#ffffff',
+    padding: 10,
+    fontSize: 16,
+    marginVertical: 2,
   },
 });
 
