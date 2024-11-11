@@ -35,16 +35,19 @@ export default function HomeScreen() {
         <ThemedText type="subtitle">{params.message3}</ThemedText>
       </ThemedView>*/}
 
-<ThemedView>
-      <ThemedText>Selected Lists:</ThemedText>
-      <FlatList
+<ThemedView style={styles.listContainer}>
+      
+      <FlatList 
         data={selectedLists}
         keyExtractor={(item, index) => `${item.name}-${index}`}
         renderItem={({ item }) => (
-          <ThemedView >
-            <ThemedText  style={styles.listContainer}>{item.name} ({item.items.length} items)</ThemedText>
-            <Button title="Remove" onPress={() => removeSelectedList(item.name)} />
+          <ThemedView style={styles.titleContainer}>
+            
+            <ThemedText style={styles.listContainer}>{item.name}</ThemedText>
+            
           </ThemedView>
+          
+         
         )}
       />
       {selectedLists.length === 0 && (
@@ -61,7 +64,9 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    textAlign:'center',
     gap: 8,
+    
   },
   stepContainer: {
     gap: 8,
@@ -70,15 +75,18 @@ const styles = StyleSheet.create({
   reactLogo: {
     height: 178,
     width: 290,
-    bottom: 10,
-    left: 20,
+    bottom: 20,
+    left: 50,
     position: 'absolute',
     
   },
   listContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 5,
+    fontWeight:'bold',
+    fontSize:20,
+    marginBottom:20
   },
 });

@@ -20,13 +20,15 @@ export default function TabTwoScreen({}) {
 
 const router = useRouter();
 
+const { selectedLists, removeSelectedList } = useLists();
+
 const [starterOption,setStarterOption] = useState(true) 
 const [mainOption,setMainOption] = useState(true) 
 const [dessertOption,setDessertOption] = useState(true) 
 const [dishName, setDishName] = useState('Dish name')
 const [desciptName, setDescriptName] = useState('Dish description')
 const [priceName, setPriceName] = useState('Price')
-const inputValue: string[] = [' ',dishName,' ',desciptName,' ',priceName,' ',courseOption]; // For item input
+const item: string[] = ['\n',dishName,'\n',desciptName,'\n',courseOption,'\n',priceName,]; // For item input
 
 const { lists, addList, addSelectedList } = useLists();
 
@@ -47,7 +49,8 @@ const { lists, addList, addSelectedList } = useLists();
 const handleAddList = () => {
   
   if (listName.trim() !== '') {
-    addList(listName+inputValue);
+    addList(listName+item);
+    
     setListName('');
   }
 };
@@ -124,8 +127,9 @@ const handleSelectList = (list: string) => {
         keyExtractor={(item, index) => `${item.name}-${index}`}
         renderItem={({ item }) => (
           <ThemedView>
-            <Text style={styles.listItem}>{item.name} ({item.items.length} items)</Text>
+            <Text style={styles.listItem}>{item.name}</Text>
             <Button title="Select" onPress={() => handleSelectList(item.name)} />
+            <Button title="Remove" onPress={() => removeSelectedList(item.name)} />
           </ThemedView>
         )}
       />
@@ -167,8 +171,8 @@ const styles = StyleSheet.create({
   reactLogo: {
     height: 178,
     width: 290,
-    bottom: 0,
-    left: 0,
+    bottom: 20,
+    left: 50,
     position: 'absolute',
   },
   listItem: {
